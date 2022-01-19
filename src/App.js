@@ -13,11 +13,11 @@ function App() {
   const [messageEth, setMessageEth] = useState('')
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       await fetchMessage()
     })()
   }, [])
-  
+
   // request access to the user's MetaMask account
   async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts' })
@@ -55,21 +55,26 @@ function App() {
         await requestAccount()
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner()
+        console.log(JSON.stringify(TestMessage))
         const contract = new ethers.Contract(
           testMessageAddress,
           TestMessage.abi,
           signer,
         )
         console.log('contract address = ' + contract.address)
+        console.log('contract resolvedAddress = ' + contract.resolvedAddress)
+        console.log(
+          'contract interface = ' + JSON.stringify(contract.interface),
+        )
         console.log('new message = ' + localMessage)
         const transaction = await contract.setTestMessage(localMessage)
-        console.log('transaction = ' + transaction)
         await transaction.wait()
         fetchMessage()
       } else {
         console.log('window.ethereum !== undefined')
       }
     } catch (err) {
+      console.log('An error occurred')
       console.log('Error: ', err)
     }
   }
