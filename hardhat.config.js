@@ -23,7 +23,10 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   },
   networks: {
     hardhat: {
-      chainId: 1337
+      chainId: 1337,
+      loggingEnabled: true,
+      throwOnCallFailures: true
+
     }
   }
 };
