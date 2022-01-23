@@ -7,7 +7,7 @@ import { Button, Container, Row, Col, Form } from 'react-bootstrap'
 
 // Update with the contract address logged out to the CLI when it was deployed
 const greeterAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-const tokenAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+const tokenAddress = '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512'
 
 function App() {
   // store message in local state
@@ -81,6 +81,8 @@ function App() {
   }
 
   async function getBalance() {
+
+    
     if (typeof window.ethereum !== 'undefined') {
       const [account] = await window.ethereum.request({
         method: 'eth_requestAccounts',
@@ -88,8 +90,9 @@ function App() {
       console.log('acount = ' + account)
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const contract = new ethers.Contract(tokenAddress, Token.abi, provider)
-      const balance = await contract.balanceOf(account)
-      console.log('Balance: ', balance.toString())
+      const balance = await provider.getBalance(msg.sender);
+      // const balance = await contract.balanceOf(account)
+      // console.log('Balance: ', balance.toString())
       setBalance(balance.toString())
     }
   }

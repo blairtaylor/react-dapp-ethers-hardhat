@@ -24,4 +24,9 @@ contract Token {
   function balanceOf(address account) external view returns (uint) {
     return balances[account];
   }
+
+  function getSenderBalance() external view returns (uint) {
+    return balances[owner];
+  }
+
 }
